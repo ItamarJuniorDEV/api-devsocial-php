@@ -7,24 +7,24 @@ return [
 
     'stores' => [
         'array' => [
-            'driver'    => 'array',
+            'driver' => 'array',
             'serialize' => false,
         ],
 
         'file' => [
             'driver' => 'file',
-            'path'   => storage_path('framework/cache/data'),
+            'path' => storage_path('framework/cache/data'),
         ],
 
         'database' => [
-            'driver'     => 'database',
-            'table'      => 'cache',
+            'driver' => 'database',
+            'table' => 'cache',
             'connection' => null,
             'lock_connection' => null,
         ],
 
         'redis' => [
-            'driver'     => 'redis',
+            'driver' => 'redis',
             'connection' => 'cache',
             'lock_connection' => 'default',
         ],
