@@ -1,6 +1,6 @@
-.claude/
-vendor/
-node_modules/
+/.claude
+/vendor
+/node_modules
 .env
 /storage/*.key
 /storage/logs
@@ -9,7 +9,10 @@ node_modules/
 /storage/app/public/avatars
 /storage/app/public/covers
 /database/*.sqlite
-bootstrap/cache/*.php
+/bootstrap/cache/*.php
+/.idea
+/.vscode
+/.phpunit.cache
 .phpunit.result.cache
 *.swp
-.DS_Store
+**/.DS_Store
