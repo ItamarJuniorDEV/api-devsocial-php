@@ -5,18 +5,13 @@ namespace App\Services;
 use App\Events\UserRegistered;
 use App\Exceptions\InvalidCredentialsException;
 use App\Models\User;
-use App\Repositories\Contracts\UserRepository;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
-    public function __construct(
-        private readonly UserRepository $users,
-    ) {}
-
     public function register(array $data): array
     {
-        $user = $this->users->create($data);
+        $user = User::create($data);
         $token = $user->createToken('api')->plainTextToken;
 
         UserRegistered::dispatch($user);
@@ -26,7 +21,7 @@ class AuthService
 
     public function login(array $credentials): array
     {
-        $user = $this->users->findByEmail($credentials['email']);
+        $user = User::where('email', $credentials['email'])->first();
 
         if (! $user || ! Hash::check($credentials['password'], $user->password)) {
             throw new InvalidCredentialsException();
