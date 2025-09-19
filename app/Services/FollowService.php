@@ -3,17 +3,26 @@
 namespace App\Services;
 
 use App\Events\UserFollowed;
-use App\Repositories\Contracts\FollowRepository;
+use App\Models\UserRelation;
 
 class FollowService
 {
-    public function __construct(
-        private readonly FollowRepository $follows,
-    ) {}
-
     public function toggle(int $authUserId, int $userId): bool
     {
-        $following = $this->follows->toggle($authUserId, $userId);
+        $relation = UserRelation::where('user_from', $authUserId)
+            ->where('user_to', $userId)
+            ->first();
+
+        if ($relation) {
+            $relation->delete();
+            $following = false;
+        } else {
+            UserRelation::create([
+                'user_from' => $authUserId,
+                'user_to' => $userId,
+            ]);
+            $following = true;
+        }
 
         UserFollowed::dispatch($authUserId, $userId, $following);
 

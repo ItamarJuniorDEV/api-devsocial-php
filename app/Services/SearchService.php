@@ -2,21 +2,23 @@
 
 namespace App\Services;
 
-use App\Repositories\Contracts\PostRepository;
-use App\Repositories\Contracts\UserRepository;
+use App\Models\Post;
+use App\Models\User;
 
 class SearchService
 {
-    public function __construct(
-        private readonly UserRepository $users,
-        private readonly PostRepository $posts,
-    ) {}
-
     public function search(string $query, int $perPage): array
     {
         return [
-            'users' => $this->users->search($query, $perPage),
-            'posts' => $this->posts->search($query, $perPage),
+            'users' => User::where('name', 'like', '%' . $query . '%')
+                ->orWhere('email', 'like', '%' . $query . '%')
+                ->paginate($perPage),
+            'posts' => Post::where('type', 'text')
+                ->where('body', 'like', '%' . $query . '%')
+                ->with(['user'])
+                ->withCount(['likes', 'comments'])
+                ->orderByDesc('created_at')
+                ->paginate($perPage),
         ];
     }
 }
