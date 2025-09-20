@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\DTO\Post\CreateCommentDTO;
-use App\DTO\Post\CreatePostDTO;
 use App\Events\PostCommented;
 use App\Events\PostCreated;
 use App\Events\PostLiked;
@@ -13,17 +11,17 @@ use App\Models\PostLike;
 
 class PostService
 {
-    public function create(int $authUserId, CreatePostDTO $dto): Post
+    public function create(int $authUserId, array $data): Post
     {
-        $body = $dto->body;
+        $body = $data['body'] ?? null;
 
-        if ($dto->type === 'photo' && $dto->photo) {
-            $body = $dto->photo->store('posts', 'public');
+        if (($data['type'] ?? null) === 'photo' && isset($data['photo'])) {
+            $body = $data['photo']->store('posts', 'public');
         }
 
         $post = Post::create([
             'user_id' => $authUserId,
-            'type' => $dto->type,
+            'type' => $data['type'],
             'body' => (string) $body,
         ]);
 
@@ -53,12 +51,12 @@ class PostService
         return $liked;
     }
 
-    public function comment(int $postId, int $authUserId, CreateCommentDTO $dto): PostComment
+    public function comment(int $postId, int $authUserId, array $data): PostComment
     {
         $comment = PostComment::create([
             'post_id' => $postId,
             'user_id' => $authUserId,
-            'body' => $dto->body,
+            'body' => $data['body'],
         ]);
 
         PostCommented::dispatch($comment);
