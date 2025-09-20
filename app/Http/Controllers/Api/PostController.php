@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\DTO\Post\CreateCommentDTO;
-use App\DTO\Post\CreatePostDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\CreateCommentRequest;
 use App\Http\Requests\Post\CreatePostRequest;
@@ -45,7 +43,7 @@ class PostController extends Controller
     {
         $post = $this->posts->create(
             (int) $request->user()->id,
-            CreatePostDTO::fromRequest($request)
+            $request->validated()
         );
 
         $post->load(['user', 'comments.user'])->loadCount(['likes', 'comments']);
@@ -106,7 +104,7 @@ class PostController extends Controller
         $comment = $this->posts->comment(
             $post->id,
             (int) $request->user()->id,
-            CreateCommentDTO::fromRequest($request)
+            $request->validated()
         );
 
         return response()->json(['data' => new PostCommentResource($comment->load('user'))], 201);
