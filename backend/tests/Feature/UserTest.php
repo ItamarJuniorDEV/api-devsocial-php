@@ -52,4 +52,20 @@ class UserTest extends TestCase
     {
         $this->getJson('/api/user/me')->assertStatus(401);
     }
+
+    public function test_update_profile_so_afeta_o_usuario_autenticado(): void
+    {
+        $eu = User::factory()->create(['name' => 'Eu Antigo', 'bio' => 'bio antiga']);
+        $outro = User::factory()->create(['name' => 'Outro', 'bio' => 'bio do outro']);
+
+        Sanctum::actingAs($eu);
+
+        $this->putJson('/api/user/profile', [
+            'name' => 'Eu Novo',
+            'bio' => 'bio nova',
+        ])->assertStatus(200);
+
+        $this->assertDatabaseHas('users', ['id' => $eu->id, 'name' => 'Eu Novo', 'bio' => 'bio nova']);
+        $this->assertDatabaseHas('users', ['id' => $outro->id, 'name' => 'Outro', 'bio' => 'bio do outro']);
+    }
 }
