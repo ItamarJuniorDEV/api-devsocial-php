@@ -3,7 +3,12 @@
 return [
     'paths' => ['api/*'],
     'allowed_methods' => ['*'],
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [
+        'http://localhost:9000',
+        'http://127.0.0.1:9000',
+        'http://localhost:8000',
+        'http://127.0.0.1:8000',
+    ],
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'],
     'exposed_headers' => [],
