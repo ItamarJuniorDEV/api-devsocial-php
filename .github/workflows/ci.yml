@@ -1,11 +1,11 @@
-name: Backend CI
+name: CI
 
 on:
   push:
     branches: [master]
     paths:
       - 'backend/**'
-      - '.github/workflows/backend.yml'
+      - '.github/workflows/ci.yml'
   pull_request:
     paths:
       - 'backend/**'
@@ -24,4 +24,4 @@ jobs:
       - run: composer install --no-progress --prefer-dist
       - run: cp .env.example .env
       - run: php artisan key:generate
-      - run: php artisan test
+      - run: vendor/bin/phpunit
