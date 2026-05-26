@@ -14,9 +14,7 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
-    public function register(): void
-    {
-    }
+    public function register(): void {}
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {

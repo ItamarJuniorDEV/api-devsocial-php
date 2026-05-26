@@ -19,8 +19,8 @@ class UserResource extends JsonResource
             'city' => $this->city,
             'work' => $this->work,
             'bio' => $this->bio,
-            'avatar_url' => $this->avatar ? asset('storage/' . $this->avatar) : null,
-            'cover_url' => $this->cover ? asset('storage/' . $this->cover) : null,
+            'avatar_url' => $this->avatar ? asset('storage/'.$this->avatar) : null,
+            'cover_url' => $this->cover ? asset('storage/'.$this->cover) : null,
             'created_at' => $this->created_at,
         ];
     }

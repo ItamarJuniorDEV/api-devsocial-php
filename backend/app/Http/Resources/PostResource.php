@@ -20,7 +20,7 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'type' => $this->type,
             'body' => $this->type === 'text' ? $this->body : null,
-            'photo_url' => $this->type === 'photo' && $this->body ? asset('storage/' . $this->body) : null,
+            'photo_url' => $this->type === 'photo' && $this->body ? asset('storage/'.$this->body) : null,
             'mine' => (bool) ($this->getAttribute('mine') ?? false),
             'liked' => (bool) ($this->getAttribute('liked') ?? false),
             'likes_count' => (int) ($this->likes_count ?? 0),

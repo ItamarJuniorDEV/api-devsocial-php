@@ -10,11 +10,11 @@ class SearchService
     public function search(string $query, int $perPage): array
     {
         return [
-            'users' => User::where('name', 'like', '%' . $query . '%')
-                ->orWhere('email', 'like', '%' . $query . '%')
+            'users' => User::where('name', 'like', '%'.$query.'%')
+                ->orWhere('email', 'like', '%'.$query.'%')
                 ->paginate($perPage),
             'posts' => Post::where('type', 'text')
-                ->where('body', 'like', '%' . $query . '%')
+                ->where('body', 'like', '%'.$query.'%')
                 ->with(['user'])
                 ->withCount(['likes', 'comments'])
                 ->orderByDesc('created_at')

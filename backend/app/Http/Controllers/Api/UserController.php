@@ -88,7 +88,7 @@ class UserController extends Controller
         $path = $this->users->uploadAvatar((int) $request->user()->id, $request->file('avatar'));
 
         return response()->json([
-            'data' => ['avatar_url' => asset('storage/' . $path)],
+            'data' => ['avatar_url' => asset('storage/'.$path)],
         ]);
     }
 
@@ -115,7 +115,7 @@ class UserController extends Controller
         $path = $this->users->uploadCover((int) $request->user()->id, $request->file('cover'));
 
         return response()->json([
-            'data' => ['cover_url' => asset('storage/' . $path)],
+            'data' => ['cover_url' => asset('storage/'.$path)],
         ]);
     }
 }
