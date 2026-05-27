@@ -1,65 +1,60 @@
 # DevSocial Backend
 
-API REST em Laravel 10 com autenticacao Sanctum e MySQL 8.
+API REST em Laravel 10 com autenticação Sanctum e MySQL 8. Visão geral e decisões técnicas no [README da raiz](../README.md).
 
 ## Stack
 
 - PHP 8.2+
 - Laravel 10
 - Sanctum (bearer tokens)
-- MySQL 8
-- Docker (opcional)
-
-## Pre-requisitos
-
-- PHP 8.2 ou superior
-- Composer
-- MySQL 8 rodando local OU Docker
+- MySQL 8 (SQLite in-memory nos testes)
 
 ## Como rodar (sem Docker)
 
-```
+```bash
 cp .env.example .env
 composer install
 php artisan key:generate
-php artisan migrate --seed
+php artisan migrate
 php artisan serve
 ```
 
-API em http://localhost:8000.
+API em `http://localhost:8000`.
 
 ## Como rodar (com Docker)
 
-```
+```bash
 docker compose up -d
 ```
 
-Sobe app + nginx + mysql.
+Sobe app + nginx + MySQL.
 
-## Endpoints principais
+## Endpoints
 
-- POST   /api/register
-- POST   /api/login
-- POST   /api/logout
-- GET    /api/me
-- GET    /api/feed
-- POST   /api/posts
-- GET    /api/posts/{id}
-- POST   /api/posts/{id}/like
-- GET    /api/posts/{id}/comments
-- POST   /api/posts/{id}/comments
-- GET    /api/users/{username}
-- POST   /api/users/{username}/follow
-- GET    /api/users/{username}/followers
-- GET    /api/users/{username}/following
-- GET    /api/users/{username}/posts
-- PUT    /api/me
-- GET    /api/search?q=&type=users|posts
+Públicos:
 
-Doc Swagger em /api/documentation.
+- POST `/api/auth/register`
+- POST `/api/auth/login`
+
+Autenticados (`Authorization: Bearer <token>`):
+
+- GET  `/api/auth/me`
+- POST `/api/auth/logout`
+- GET  `/api/user/me`
+- PUT  `/api/user/profile`
+- POST `/api/user/avatar`
+- POST `/api/user/cover`
+- GET  `/api/feed`
+- POST `/api/posts`
+- POST `/api/posts/{id}/like`
+- POST `/api/posts/{id}/comments`
+- POST `/api/users/{id}/follow`
+- GET  `/api/search?q=&per_page=`
+
+Documentação Swagger em `/api/documentation`.
 
 ## Testes
 
-```
-php artisan test
+```bash
+vendor/bin/phpunit
 ```
